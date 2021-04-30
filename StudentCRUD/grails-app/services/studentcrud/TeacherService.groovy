@@ -8,15 +8,13 @@ class TeacherService {
 
     def saveTeacherDetails(Teacher t) {
         if (t == null) {
-            transactionStatus.setRollbackOnly()
-            notFound()
             return
         }
         if(t.validate()) {
             t.errors
         }
 
-        t.save flush:true
+        t.save()
     }
 
 

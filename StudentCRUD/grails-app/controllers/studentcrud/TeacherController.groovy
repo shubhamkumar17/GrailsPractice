@@ -3,7 +3,6 @@ package studentcrud
 import grails.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 
-@Transactional
 class TeacherController {
 
     TeacherService teacherService
@@ -13,7 +12,7 @@ class TeacherController {
         def name = params.name
         Teacher t = new Teacher(tid: (tid), name: (name))
         println t
-        if(t != null)
+        if(t)
             teacherService.saveTeacherDetails(t)
         else
             println "Not Saving the data."
