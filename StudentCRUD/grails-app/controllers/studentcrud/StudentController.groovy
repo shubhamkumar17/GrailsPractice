@@ -10,7 +10,8 @@ class StudentController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Student.list(params), model:[studentCount: Student.count()]
+        List<Student> students = Student.findAll()
+        respond Student.list(params), model:[studentCount: Student.count(), students: students]
     }
 
     def show(Student student) {

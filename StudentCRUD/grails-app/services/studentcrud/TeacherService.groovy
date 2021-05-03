@@ -14,7 +14,17 @@ class TeacherService {
             t.errors
         }
 
-        t.save()
+        t.save flush:true
+    }
+
+    Integer updateTeacherDetails(Teacher t) {
+        Teacher newT = Teacher.findByTid(t.getTid())
+        if(newT) {
+            t.save flush: true
+            return 1
+        }
+
+        return 0
     }
 
 
@@ -25,5 +35,9 @@ class TeacherService {
             return 1
         }
         return  0
+    }
+
+    def findAll() {
+        Teacher.findAll()
     }
 }

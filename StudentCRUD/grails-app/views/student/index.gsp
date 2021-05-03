@@ -18,10 +18,23 @@
             <g:if test="${flash.message}">
                 <div class="message" role="status">${flash.message}</div>
             </g:if>
-            <f:table collection="${studentList}" />
+            %{--<g:table collection="${studentList}" />--}%
+            <g:each in="${students}" var="s">
+
+                <p>
+                    Roll No: ${s.rollNo} Name: ${s.name}
+                </p>
+
+                <g:form method="delete" resource="${s}" action ="delete">
+
+                    <g:link class="edit" action="edit" resource="${s}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
+                    <input class="delete" type="submit" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
+                </g:form>
+
+            </g:each>
 
             <div class="pagination">
-                <g:paginate total="${studentCount ?: 0}" />
+                <p total="${studentCount ?: 0}" ></p>
             </div>
         </div>
     </body>

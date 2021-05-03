@@ -29,7 +29,10 @@
             <g:form resource="${this.student}" method="PUT">
                 <g:hiddenField name="version" value="${this.student?.version}" />
                 <fieldset class="form">
-                    <f:all bean="student"/>
+                    <label for="rollNo">Student Roll No.</label></label><g:textField name="rollNo" value="${this.student?.rollNo}"></g:textField>
+                </fieldset>
+                <fieldset class="form">
+                    <label for="name">Student Name</label></label><g:textField name="name" value="${this.student?.name}"></g:textField>
                 </fieldset>
                 <fieldset class="buttons">
                     <input class="save" type="submit" value="${message(code: 'default.button.update.label', default: 'Update')}" />
