@@ -34,7 +34,7 @@
             </g:each>
 
             <div class="pagination">
-                <p total="${studentCount ?: 0}" ></p>
+                <p>Total Count: ${studentCount}</p>
             </div>
         </div>
     </body>

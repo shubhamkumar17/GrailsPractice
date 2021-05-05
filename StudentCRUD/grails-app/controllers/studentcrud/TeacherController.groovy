@@ -8,47 +8,56 @@ class TeacherController {
     TeacherService teacherService
 
     def index() {
-        render("Welcome! This is homepage.")
+        [teachers: teacherService.findAll()]
     }
 
-    def create() {
-        def tid = params.tid
-        def name = params.name
-        Teacher t = new Teacher(tid: (tid), name: (name))
-        println t
-        if(t)
-            teacherService.saveTeacherDetails(t)
+    def create() {}
+
+    def save(Teacher teacher) {
+        //Teacher teacher = new Teacher(params)
+        println teacher
+        if (teacher) {
+
+            if(teacherService.saveTeacherDetails(teacher)) {
+                flash.message = "Teacher Added!!"
+            } else {
+                flash.message = "Fields cannot be empty!!"
+            }
+            redirect(action: "create")
+        }
         else
             println "Not Saving the data."
-        render("Teachers Details saved for Tid: ${params.tid}")
     }
 
-    def update() {
-        def tid = params.tid
-        def name = params.name
-        Teacher t = new Teacher(tid: (tid), name: (name))
-        println t
-        if(t)
-            if(teacherService.updateTeacherDetails(t))
-                render("Teachers Details Updated for Tid: ${params.tid}")
-            else
-                render("Teacher ${tid} not found")
-        else
-            println "Not Saving the data."
+    def update(Teacher teacher) {
 
+        if(teacherService.updateTeacherDetails(teacher)) {
+            flash.message = "Data updated for Teacher ID: " + params.tid
+        } else {
+            flash.message = " Teacher Id: " + params.tid + " not found!!"
+        }
+        redirect (action: "index")
     }
 
     def delete() {
-        Integer tid = params.tid as Integer
-        Integer val = teacherService.deleteTeacherDetails(tid)
-        if(val) {
-            render "Teacher ${tid} Deleted!"
+        println "Params: " + params
+        Integer success = teacherService.deleteTeacherDetails(params.id as Integer)
+        println "Success: " + success
+        if(success) {
+            flash.message = "Teacher with Teacher ID: " + success + " deleted."
         } else {
-            render "Teacher $tid not found"
+            flash.message = "Cannot delete, Teacher with ID: " + success
         }
+        redirect(action: "index")
     }
 
-    def show() {
-        render (teacherService.findAll())
+    def edit() {
+        Teacher t = teacherService.getTeacherDetails(params.id as Integer)
+        if(t) {
+            render (view: "edit", model: [teacher: t])
+        } else {
+            flash.message = "Some error occured!!"
+            redirect(action: "index")
+        }
     }
 }
